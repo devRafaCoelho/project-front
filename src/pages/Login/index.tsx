@@ -3,15 +3,19 @@ import { AxiosError } from 'axios'
 import { useForm } from 'react-hook-form'
 import { useMutation } from 'react-query'
 import { Link, useNavigate } from 'react-router-dom'
+import { Input } from '../../components/Input'
 import { schemaLogin } from '../../schemas/schemas'
 import { api } from '../../services/api'
+import { Button } from '../../styles/Button'
+import { Container, Form } from '../../styles/styles'
+import { Text } from '../../styles/Typography'
 import { UserData } from '../../types'
 
 export default function LoginPage() {
   const navigate = useNavigate()
 
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
     setError
@@ -50,24 +54,34 @@ export default function LoginPage() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <h1>Login</h1>
+    <Container>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Text type="title" size="exl" color="black" position="center">
+          Faça seu Login!
+        </Text>
 
-      <>
-        <label htmlFor="email">E-mail</label>
-        <input id="email" type="email" placeholder={errors.email?.message} {...register('email')} />
-      </>
+        <Input
+          type="text"
+          name="email"
+          control={control}
+          placeholder={errors?.email?.message || 'Email'}
+        />
 
-      <>
-        <label htmlFor="password">Password</label>
-        <input id="password" type="password" placeholder={errors.password?.message} {...register('password')} />
-      </>
+        <Input
+          type="password"
+          name="password"
+          control={control}
+          placeholder={errors?.password?.message || 'Senha'}
+        />
 
-      <button>Login</button>
+        <Button type="submit" size="lrg" background="blue" color="white">
+          Login
+        </Button>
 
-      <p>
-        Don't have an account yet?? <Link to="/register">Register!</Link>
-      </p>
-    </form>
+        <Text type="paragraph" size="rgl" color="black" position="center">
+          Ainda não tem uma conta? <Link to="/register">Cadastre-se!</Link>
+        </Text>
+      </Form>
+    </Container>
   )
 }

@@ -19,14 +19,16 @@ export const Container = styled.div`
 `
 
 export const Form = styled.form`
-  min-width: 500px;
-  margin: auto 20px;
-  padding: 20px 56px;
+  max-width: 500px;
+  min-width: 300px;
+  width: 100%;
+  margin: auto 100px;
+  padding: 40px;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 30px;
   position: relative;
 
   background-color: ${({ theme }) => theme.COLORS.whitesh};
@@ -34,5 +36,9 @@ export const Form = styled.form`
 
   @media screen and (max-width: 500px) {
     padding: 20px 10px;
+  }
+
+  a {
+    color: ${({ theme }) => theme.COLORS.blue};
   }
 `

@@ -7,9 +7,13 @@ export default function Header() {
   const { data } = useQuery('user-data', api.getUser)
   const navigate = useNavigate()
 
+  const avatar = data ? data.name.split(' ') : []
+  const avatarInitials =
+    avatar.length > 1 ? avatar[0].charAt(0) + avatar[1].charAt(0) : avatar[0]?.charAt(0)
+
   return (
     <header>
-      <h1>Seja bem vinda(o) {data?.name}!</h1>
+      <h1>{avatarInitials}</h1>
 
       <button
         onClick={() => {

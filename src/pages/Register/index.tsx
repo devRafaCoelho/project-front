@@ -16,7 +16,6 @@ export default function RegisterPage() {
   const navigate = useNavigate()
 
   const {
-    register,
     handleSubmit,
     control,
     formState: { errors },
@@ -95,7 +94,7 @@ export default function RegisterPage() {
         </Button>
 
         <Text type="paragraph" size="rgl" color="black" position="center">
-          Already registered? <Link to="/login">LogIn!</Link>
+          Já tem cadastro? <Link to="/login">Faça seu LogIn!</Link>
         </Text>
       </Form>
     </Container>

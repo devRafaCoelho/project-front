@@ -5,13 +5,18 @@ import { useForm } from 'react-hook-form'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { schemaUpdateUser } from '../../schemas/schemas'
 import { api } from '../../services/api'
+import { Button } from '../../styles/Button'
+import { Container, Form } from '../../styles/styles'
+import { Text } from '../../styles/Typography'
 import { UserData } from '../../types'
+import { Input } from '../Input'
+import { CgClose } from 'react-icons/cg'
 
 export default function FormUser({ close }: { close: () => void }) {
   const { data } = useQuery('user-data', api.getUser)
 
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
     setError,
@@ -32,7 +37,6 @@ export default function FormUser({ close }: { close: () => void }) {
   const { mutate } = useMutation(api.updateUser, {
     onSuccess: () => {
       queryClient.invalidateQueries('user-data')
-      console.log('User updated successfully!')
       close()
     },
     onError: (error: AxiosError<any>) => {
@@ -58,8 +62,6 @@ export default function FormUser({ close }: { close: () => void }) {
   })
 
   async function onSubmit(data: UserData) {
-    console.log(data)
-
     mutate(data)
   }
 
@@ -71,38 +73,62 @@ export default function FormUser({ close }: { close: () => void }) {
   }, [data])
 
   return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <h1>Update User</h1>
+    <Container>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Text type="title" size="exl" color="black" position="center">
+          Atualize seus dados!
+        </Text>
 
-        <>
-          <label htmlFor="name">Name</label>
-          <input id="name" type="text" placeholder={errors.name?.message} {...register('name')} />
-        </>
+        <Input
+          type="text"
+          name="name"
+          control={control}
+          placeholder={errors?.name?.message || 'Nome'}
+        />
 
-        <>
-          <label htmlFor="email">E-mail</label>
-          <input id="email" type="email" placeholder={errors.email?.message} {...register('email')} />
-        </>
+        <Input
+          type="text"
+          name="email"
+          control={control}
+          placeholder={errors?.email?.message || 'Email'}
+        />
 
-        <>
-          <label htmlFor="password">Password</label>
-          <input id="password" type="password" placeholder={errors.password?.message} {...register('password')} />
-        </>
+        <Input
+          type="password"
+          name="password"
+          control={control}
+          placeholder={errors?.password?.message || 'Senha'}
+        />
 
-        <>
-          <label htmlFor="newPassword">newPassword</label>
-          <input id="newPassword" type="password" placeholder={errors.newPassword?.message} {...register('newPassword')} />
-        </>
+        <Input
+          type="password"
+          name="newPassword"
+          control={control}
+          placeholder={errors?.newPassword?.message || 'Nova Senha (opcional)'}
+        />
 
-        <>
-          <label htmlFor="confirmNewPassword">confirmNewPassword</label>
-          <input id="confirmNewPassword" type="password" placeholder={errors.confirmNewPassword?.message} {...register('confirmNewPassword')} />
-        </>
+        <Input
+          type="password"
+          name="confirmNewPassword"
+          control={control}
+          placeholder={errors?.confirmNewPassword?.message || 'Confirmar Nova Senha (opcional)'}
+        />
 
-        <button>Update</button>
-      </form>
-      <button onClick={close}>X</button>
-    </>
+        <Button type="submit" size="lrg" background="blue" color="white">
+          Concluir
+        </Button>
+        <CgClose
+          onClick={close}
+          style={{
+            width: '24px',
+            height: '24px',
+            position: 'absolute',
+            top: '30px',
+            right: '30px',
+            cursor: 'pointer'
+          }}
+        />
+      </Form>
+    </Container>
   )
 }
